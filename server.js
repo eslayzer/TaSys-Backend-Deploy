@@ -12,7 +12,16 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Middlewares
-app.use(cors());
+
+// *** CONFIGURACIÓN DE CORS ***
+// Es crucial que el 'origin' coincida exactamente con la URL de tu frontend desplegado.
+// Reemplaza 'https://tasys-frontend-deploy-production.up.railway.app' con la URL REAL de tu frontend de Railway.
+app.use(cors({
+  origin: 'https://tasys-frontend-deploy-production.up.railway.app', // <-- ¡Pega la URL de tu FRONTEND aquí!
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
+}));
+
 app.use(express.json());
 
 // Importa las rutas de tareas y les pasa el pool de conexiones
