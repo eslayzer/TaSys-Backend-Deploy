@@ -1,15 +1,14 @@
 // Importa el módulo mysql2 con soporte para promesas
 const mysql = require('mysql2/promise');
-// Carga las variables de entorno desde el archivo .env
+// Carga las variables de entorno desde el archivo .env (útil para desarrollo local)
 require('dotenv').config();
 
 // Crea un pool de conexiones a la base de datos
 // Esto permite reutilizar conexiones y mejorar el rendimiento
 const pool = mysql.createPool({
-    host: process.env.DB_HOST,        // Host de la base de datos (ej. localhost)
-    user: process.env.DB_USER,        // Usuario de la base de datos (ej. root)
-    password: process.env.DB_PASSWORD, // Contraseña del usuario de la base de datos
-    database: process.env.DB_DATABASE, // Nombre de la base de datos (ej. tasys_db)
+    // Prioriza el uso de DATABASE_URL si está disponible (como en Railway)
+    // Si no está, usa las variables de entorno individuales para la configuración local
+    uri: process.env.DATABASE_URL || `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT || 3306}/${process.env.DB_DATABASE}`,
     waitForConnections: true,         // Si no hay conexiones disponibles, espera
     connectionLimit: 10,              // Número máximo de conexiones en el pool
     queueLimit: 0                     // Número máximo de solicitudes en la cola (0 = ilimitado)
