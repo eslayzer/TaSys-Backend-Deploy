@@ -13,14 +13,10 @@ const port = process.env.PORT || 3001;
 
 // Middlewares
 
-// *** CONFIGURACIÓN DE CORS ***
-// Es crucial que el 'origin' coincida exactamente con la URL de tu frontend desplegado.
-// Reemplaza 'https://tasys-frontend-deploy-production.up.railway.app' con la URL REAL de tu frontend de Railway.
-app.use(cors({
-  origin: 'https://tasys-frontend-deploy-production.up.railway.app', // <-- ¡Pega la URL de tu FRONTEND aquí!
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
-}));
+// *** CONFIGURACIÓN DE CORS (TEMPORALMENTE PERMISIVA PARA DEPURAR) ***
+// ¡ADVERTENCIA!: Esta configuración permite solicitudes desde CUALQUIER origen.
+// NO usar en producción sin un 'origin' específico por motivos de seguridad.
+app.use(cors()); // <-- ¡CAMBIO AQUÍ! Elimina la configuración de 'origin', 'methods', 'allowedHeaders'
 
 app.use(express.json());
 
